@@ -1,7 +1,6 @@
 import {
   IsBoolean,
   IsEmail,
-  isEmail,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -22,11 +21,19 @@ export class User {
   @PrimaryGeneratedColumn({ unsigned: true })
   id: number;
 
+  /**
+   * 이메일
+   * @example "user@user.com"
+   */
   @IsNotEmpty({ message: '이메일을 입력해주세요' })
   @IsEmail()
   @Column({ unique: true })
   email: string;
 
+  /**
+   * 비밀번호
+   * @example "User123!"
+   */
   @IsNotEmpty({ message: '비밀번호를 입력해주세요.' })
   @IsStrongPassword(
     { minLength: 6 },
@@ -35,6 +42,10 @@ export class User {
   @Column()
   password: string;
 
+  /**
+   * 닉네임
+   * @example "유저입니다"
+   */
   @IsNotEmpty({ message: '닉네임을 입력해주세요' })
   @IsString()
   @Column()

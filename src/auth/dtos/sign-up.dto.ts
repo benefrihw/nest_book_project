@@ -1,4 +1,4 @@
-import { PickType } from '@nestjs/mapped-types';
+import { PickType } from '@nestjs/swagger';
 import { IsNotEmpty, IsStrongPassword } from 'class-validator';
 import { User } from 'src/user/entities/user.entity';
 
@@ -7,6 +7,10 @@ export class SignUpDto extends PickType(User, [
   'password',
   'nickname',
 ]) {
+  /**
+   * 비밀번호 확인
+   * @example "User123!"
+   */
   @IsNotEmpty({ message: '비밀번호 확인을 입력해주세요.' })
   @IsStrongPassword(
     { minLength: 6 },

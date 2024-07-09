@@ -1,10 +1,13 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 export const TypeOrmModuleOptions: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
   inject: [ConfigService],
   useFactory: (ConfigService: ConfigService) => ({
+    // DB 컬럼을 snakeCase로 변경
+    namingStrategy: new SnakeNamingStrategy(),
     type: 'mysql',
     host: ConfigService.get<string>('DB_HOST'),
     port: ConfigService.get<number>('DB_PORT'),

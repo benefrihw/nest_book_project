@@ -2,14 +2,16 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ShowCategory } from '../types/show-category-type';
+import { Schedule } from './schedule.entity';
 
 @Entity('shows')
 export class Show {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ unsigned: true })
   id: number;
 
   @Column({ unique: true })
@@ -35,4 +37,7 @@ export class Show {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany((type) => Schedule, (schedule) => schedule.show, { cascade: true })
+  schedules: Schedule[];
 }

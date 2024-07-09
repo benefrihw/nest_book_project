@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  HttpCode,
   HttpStatus,
   Post,
   Request,
@@ -38,9 +39,15 @@ export class AuthController {
    * @param signInDto
    * @returns
    */
+  @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('local'))
   @Post('sign-in')
-  async signIn(@Request() req, @Body() signInDto: SignInDto) {
-    return req.user;
+  signIn(@Request() req, @Body() signInDto: SignInDto) {
+    const data = this.authService.signIn(req.user);
+    return {
+      statusCode: HttpStatus.OK,
+      message: '로그인 성공했습니다.',
+      data,
+    };
   }
 }

@@ -6,11 +6,13 @@ import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { SignInDto } from './dtos/sign-in.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly configService: ConfigService,
+    private readonly jwtService: JwtService,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
@@ -37,10 +39,14 @@ export class AuthService {
       nickname,
       points: DEFAULT_CUSTOMER_POINT,
     });
-    // 비밀번호 삭제
-    delete user.password;
+    return this.signIn(user.id);
+  }
 
-    return user;
+  signIn(userId: number) {
+    // 토큰 생성
+    const payload = { id: userId };
+    const accessToken = this.jwtService.sign(payload);
+    return { accessToken };
   }
 
   // 이메일, 비밀번호 일치여부 확인

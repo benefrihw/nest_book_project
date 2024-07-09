@@ -45,7 +45,7 @@ export class User {
   points: number;
 
   @IsBoolean()
-  @Column()
+  @Column({ default: false })
   isAdmin: boolean;
 
   @CreateDateColumn()

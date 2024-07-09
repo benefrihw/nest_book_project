@@ -5,6 +5,7 @@ import { DEFAULT_CUSTOMER_POINT } from 'src/constants/point.constant';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
+import { SignInDto } from './dtos/sign-in.dto';
 
 @Injectable()
 export class AuthService {
@@ -40,5 +41,21 @@ export class AuthService {
     delete user.password;
 
     return user;
+  }
+
+  // 이메일, 비밀번호 일치여부 확인
+  async validateUser({ email, password }: SignInDto) {
+    const user = await this.userRepository.findOne({
+      where: { email },
+      select: { id: true, password: true },
+    });
+    const isPasswordMatched = bcrypt.compareSync(
+      password,
+      user?.password ?? '',
+    );
+    if (!user || !isPasswordMatched) {
+      return null;
+    }
+    return { id: user.id };
   }
 }

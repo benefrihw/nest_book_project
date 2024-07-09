@@ -6,16 +6,19 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('books')
-export class Book {
+@Entity('schedules')
+export class Schedule {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  userId: number;
+  showId: number;
 
-  @Column()
-  scheduleId: number;
+  @Column({ type: 'date' })
+  date: Date;
+
+  @Column({ type: 'number' })
+  time: string;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -6,16 +6,19 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('books')
-export class Book {
+@Entity('seats')
+export class Seat {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  userId: number;
-
-  @Column()
   scheduleId: number;
+
+  @Column({ unsigned: true })
+  availableSeats: number;
+
+  @Column({ unsigned: true })
+  totalSeats: number;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -11,7 +11,7 @@ import { ShowService } from './show.service';
 import { CreateShowDto } from './dto/create-show.dto';
 import { UpdateShowDto } from './dto/update-show.dto';
 
-@Controller('show')
+@Controller('shows')
 export class ShowController {
   constructor(private readonly showService: ShowService) {}
 
